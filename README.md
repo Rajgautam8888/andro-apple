@@ -2,134 +2,155 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>iPhone UI</title>
+<title>iPhone 16 UI</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-margin:0;
-font-family:sans-serif;
-background:black;
-color:white;
+font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+background:#000;
+color:#fff;
+overflow:hidden;
 }
 
 /* Pages */
 .page{
 display:none;
 height:100vh;
+width:100%;
 justify-content:center;
 align-items:center;
 flex-direction:column;
 }
 
 /* BOOT */
-#boot{
-display:flex;
-background:black;
-}
+#boot{display:flex;background:#000;}
 
 .apple-logo svg{
-animation:appleGlow 2.5s infinite;
+animation:glow 2.5s infinite ease-in-out;
 }
 
-@keyframes appleGlow{
-0%{opacity:0.2; transform:scale(0.8); filter:drop-shadow(0 0 5px white);}
-50%{opacity:1; transform:scale(1.1); filter:drop-shadow(0 0 30px white);}
-100%{opacity:0.2; transform:scale(0.8);}
+@keyframes glow{
+0%{opacity:0.2;transform:scale(0.8);filter:drop-shadow(0 0 5px #fff);}
+50%{opacity:1;transform:scale(1.1);filter:drop-shadow(0 0 40px #fff);}
+100%{opacity:0.2;transform:scale(0.8);}
 }
 
 .boot-bar{
-width:200px;
-height:4px;
-background:#222;
-margin-top:20px;
-border-radius:10px;
-overflow:hidden;
+width:220px;height:4px;background:#222;
+margin-top:30px;border-radius:10px;overflow:hidden;
 }
 
 .boot-progress{
-height:100%;
-width:0%;
-background:white;
+height:100%;width:0%;
+background:#fff;
 }
 
-/* LOCK */
+/* LOCK SCREEN */
 #lock{
 display:none;
+background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') center/cover;
+backdrop-filter:blur(10px);
 }
 
-.dots{
-display:flex;
-gap:10px;
-margin:20px;
+.lock-box{
+background:rgba(0,0,0,0.4);
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(15px);
 }
 
+.dots{display:flex;gap:10px;margin:20px;justify-content:center;}
 .dot{
-width:15px;
-height:15px;
-border-radius:50%;
-background:#444;
+width:12px;height:12px;border-radius:50%;
+background:#555;
 }
-
-.active{background:white;}
+.dot.active{background:#fff;}
 
 .keypad button{
-width:60px;
-height:60px;
-margin:5px;
-border:none;
+width:65px;height:65px;
+margin:6px;
 border-radius:50%;
+border:none;
+background:rgba(255,255,255,0.1);
+color:#fff;
 font-size:18px;
+backdrop-filter:blur(10px);
 }
 
 /* HOME */
 #home{
 display:none;
+background:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7') center/cover;
 position:relative;
 }
 
 /* Dynamic Island */
 .dynamic-island{
 position:absolute;
-top:10px;
+top:12px;
 left:50%;
 transform:translateX(-50%);
-background:black;
-padding:10px 20px;
-border-radius:20px;
-font-size:12px;
+background:rgba(0,0,0,0.7);
+padding:8px 20px;
+border-radius:30px;
+font-size:13px;
+backdrop-filter:blur(10px);
+transition:0.4s;
 }
 
-/* Apps */
+/* App Grid */
 .app-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-margin-top:80px;
+grid-template-columns:repeat(4,1fr);
+gap:25px;
+margin-top:120px;
+padding:20px;
 text-align:center;
 }
 
+.app{
+cursor:pointer;
+transition:0.3s;
+}
+
+.app:hover{
+transform:scale(1.1);
+}
+
 .icon{
-width:70px;
-height:70px;
-border-radius:20px;
+width:65px;height:65px;
+border-radius:18px;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:30px;
+font-size:26px;
 margin:auto;
+box-shadow:0 8px 20px rgba(0,0,0,0.5);
 }
 
+.label{
+font-size:12px;
+margin-top:6px;
+}
+
+/* Apps Page */
 iframe{
-width:90%;
-height:300px;
+width:92%;
+height:320px;
 border:none;
-border-radius:10px;
+border-radius:15px;
 margin-top:20px;
 }
 
 button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#fff;
+color:#000;
 margin-top:20px;
-padding:10px;
 }
 </style>
 </head>
@@ -150,16 +171,15 @@ padding:10px;
 
 <!-- LOCK -->
 <div id="lock" class="page">
-<h2>Enter Password</h2>
+<div class="lock-box">
+<h3 align="center">Enter Password</h3>
 
-<div class="dots" id="dots">
-<div class="dot"></div>
-<div class="dot"></div>
-<div class="dot"></div>
-<div class="dot"></div>
+<div class="dots">
+<div class="dot"></div><div class="dot"></div>
+<div class="dot"></div><div class="dot"></div>
 </div>
 
-<div class="keypad">
+<div class="keypad" align="center">
 <button onclick="press(1)">1</button>
 <button onclick="press(2)">2</button>
 <button onclick="press(3)">3</button><br>
@@ -172,27 +192,34 @@ padding:10px;
 <button onclick="press(0)">0</button>
 </div>
 </div>
+</div>
 
 <!-- HOME -->
 <div id="home" class="page">
-
 <div class="dynamic-island" id="island">📱 Ready</div>
 
 <div class="app-grid">
-<div onclick="openApp('youtube')">
+
+<div class="app" onclick="openApp('youtube')">
 <div class="icon" style="background:red;">▶️</div>
-YouTube
+<div class="label">YouTube</div>
 </div>
 
-<div onclick="openApp('flipkart')">
+<div class="app" onclick="openApp('flipkart')">
 <div class="icon" style="background:#2874f0;">🛒</div>
-Flipkart
+<div class="label">Flipkart</div>
 </div>
 
-<div onclick="openApp('spotify')">
+<div class="app" onclick="openApp('spotify')">
 <div class="icon" style="background:#1db954;">🎵</div>
-Spotify
+<div class="label">Spotify</div>
 </div>
+
+<div class="app" onclick="openApp('camera')">
+<div class="icon" style="background:#555;">📷</div>
+<div class="label">Camera</div>
+</div>
+
 </div>
 </div>
 
@@ -215,34 +242,40 @@ Spotify
 <button onclick="goHome()">Back</button>
 </div>
 
+<div id="camera" class="page">
+<h2>Camera</h2>
+<p>📸 Camera UI Coming Soon</p>
+<button onclick="goHome()">Back</button>
+</div>
+
 <script>
-let progress=0;
-let pin="";
+let progress=0, pin="";
 
 document.getElementById("boot").style.display="flex";
 
 let boot=setInterval(()=>{
-progress+=10;
-document.getElementById("bootProgress").style.width=progress+"%";
+progress+=8;
+bootProgress.style.width=progress+"%";
 
 if(progress>=100){
 clearInterval(boot);
-document.getElementById("boot").style.display="none";
-document.getElementById("lock").style.display="flex";
+boot.style.opacity="0";
+setTimeout(()=>{
+boot.style.display="none";
+lock.style.display="flex";
+},500);
 }
-},300);
+},250);
 
-function press(num){
+function press(n){
 if(pin.length<4){
-pin+=num;
-updateDots();
+pin+=n;updateDots();
 if(pin.length===4) unlock();
 }
 }
 
 function updateDots(){
-let dots=document.querySelectorAll(".dot");
-dots.forEach((d,i)=>{
+document.querySelectorAll(".dot").forEach((d,i)=>{
 d.classList.toggle("active",i<pin.length);
 });
 }
@@ -253,8 +286,7 @@ showPage("home");
 showIsland("🔓 Unlocked");
 }else{
 showIsland("❌ Wrong");
-pin="";
-updateDots();
+pin="";updateDots();
 }
 }
 
@@ -268,14 +300,12 @@ showPage(id);
 showIsland("📱 "+id+" Opened");
 }
 
-function goHome(){
-showPage("home");
-}
+function goHome(){showPage("home");}
 
 function showIsland(msg){
-let island=document.getElementById("island");
-island.innerText=msg;
-setTimeout(()=>{island.innerText="📱 Ready";},2000);
+let i=document.getElementById("island");
+i.innerText=msg;
+setTimeout(()=>i.innerText="📱 Ready",2000);
 }
 </script>
 
